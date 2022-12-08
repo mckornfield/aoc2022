@@ -6,26 +6,68 @@ import (
 	"github.com/mckornfield/aoc2022/shared"
 )
 
-const sampleInput = `1000
-2000
-3000
+const sampleInput = `$ cd /
+$ ls
+dir a
+14848514 b.txt
+8504156 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+29116 f
+2557 g
+62596 h.lst
+$ cd e
+$ ls
+584 i
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+4060174 j
+8033020 d.log
+5626152 d.ext
+7214296 k`
 
-4000
-
-5000
-6000
-
-7000
-8000
-9000
-
-10000`
-
-const errorMessageFmt = "Expected max cals to be %d but was %d"
+const errorMessageFmt = "Expected folder deletion count to be %d but was %d"
 
 func TestProblemInput(t *testing.T) {
 	_, err := shared.ReadFile("day_input.txt")
+	// input, err := shared.ReadFile("day_input.txt")
 	if err != nil {
 		t.Fatalf("Error: %s", err)
 	}
+	// result := getFolderDeletionCount(input)
+	// expectedResult := 1778099
+	// if result != expectedResult {
+	// 	t.Errorf(errorMessageFmt, expectedResult, result)
+	// }
 }
+
+func TestSampleInput(t *testing.T) {
+	result := getFolderDeletionCount(sampleInput)
+	expectedResult := 95437
+	if result != expectedResult {
+		t.Errorf(errorMessageFmt, expectedResult, result)
+	}
+}
+
+// func TestSampleInputPt2(t *testing.T) {
+// 	result := getDirectoryToDelete(sampleInput)
+// 	expectedResult := 24933642
+// 	if result != expectedResult {
+// 		t.Errorf(errorMessageFmt, expectedResult, result)
+// 	}
+// }
+// func TestProblemInputPt2(t *testing.T) {
+// 	input, err := shared.ReadFile("day_input.txt")
+// 	if err != nil {
+// 		t.Fatalf("Error: %s", err)
+// 	}
+// 	result := getDirectoryToDelete(input)
+// 	expectedResult := 1623571
+// 	if result != expectedResult {
+// 		t.Errorf(errorMessageFmt, expectedResult, result)
+// 	}
+// }
