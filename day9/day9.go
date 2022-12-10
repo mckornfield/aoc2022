@@ -45,8 +45,7 @@ func getDirectionFromCoords(target, current int) int {
 	return -1
 }
 
-func followTail(headCoords, tailCoords Coords, visistedSpots map[Coords]bool) (Coords, int) {
-	changes := 0
+func followTail(headCoords, tailCoords Coords, visistedSpots map[Coords]bool) Coords {
 	for !areCoordsTouching(headCoords, tailCoords) {
 		coordChange := Coords{0, 0}
 		if headCoords.x != tailCoords.x { // Different column
@@ -61,15 +60,12 @@ func followTail(headCoords, tailCoords Coords, visistedSpots map[Coords]bool) (C
 			if _, ok := visistedSpots[tailCoords]; ok {
 				fmt.Println(fmt.Sprintf("Already visited at %v", tailCoords))
 			} else {
-				// beforeLen := len(visistedSpots)
 				visistedSpots[tailCoords] = true
-				// afterLen := len(visistedSpots)
 			}
 
 		}
-		changes += 1
 	}
-	return tailCoords, changes
+	return tailCoords
 }
 
 func getNumberOfTailPositions(input string) int {
@@ -78,7 +74,6 @@ func getNumberOfTailPositions(input string) int {
 	tailPositions := map[Coords]bool{
 		tailCoords: true,
 	}
-	changes := 0
 
 	for _, line := range strings.Split(input, "\n") {
 		directionAndMagnitude := strings.Split(line, " ")
@@ -88,9 +83,7 @@ func getNumberOfTailPositions(input string) int {
 			panic(err)
 		}
 		headCoords = move(headCoords, direction, magntiude)
-		change := 0
-		tailCoords, change = followTail(headCoords, tailCoords, tailPositions)
-		changes += change
+		tailCoords = followTail(headCoords, tailCoords, tailPositions)
 	}
 	return len(tailPositions)
 }
@@ -154,7 +147,6 @@ func getNumberOfTailPositionsForLongRope(input string) int {
 	tailPositions := map[Coords]bool{
 		{0, 0}: true,
 	}
-	changes := 1
 	for _, line := range strings.Split(input, "\n") {
 		directionAndMagnitude := strings.Split(line, " ")
 		direction := directionAndMagnitude[0]
@@ -163,24 +155,15 @@ func getNumberOfTailPositionsForLongRope(input string) int {
 			panic(err)
 		}
 		fmt.Println(directionAndMagnitude)
-		rope[0] = move(rope[0], direction, magntiude)
-		tailIndex := len(rope) - 1
-		for i := 0; i < tailIndex-1; i++ {
-			rope[i+1], _ = followTail(rope[i], rope[i+1], nil)
-			// fmt.Println(i + 1)
+		for i := 0; i < magntiude; i++ {
+			rope[0] = move(rope[0], direction, 1)
+			tailIndex := len(rope) - 1
+			for i := 0; i < tailIndex-1; i++ {
+				rope[i+1] = followTail(rope[i], rope[i+1], nil)
+			}
+			rope[tailIndex] = followTail(rope[tailIndex-1], rope[tailIndex], tailPositions)
 		}
-		change := 0
-		rope[tailIndex], change = followTail(rope[tailIndex-1], rope[tailIndex], tailPositions)
-		changes += change
-		fmt.Println(rope)
-		// printTail(rope)
-		// if i > 100 {
-		// 	fmt.Println(i)
-		// }
-		// if i == 150 {
-		// 	break
-		// }
-		// printRope(rope)
+
 	}
 	// fmt.Println(tailPositions)
 	return len(tailPositions)

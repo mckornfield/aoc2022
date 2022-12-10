@@ -66,7 +66,7 @@ func TestProblemInputPt2(t *testing.T) {
 		t.Fatalf("Error: %s", err)
 	}
 	result := getNumberOfTailPositionsForLongRope(input)
-	expectedResult := 2297
+	expectedResult := 2327
 	if result != expectedResult {
 		t.Errorf(errorMessageFmt, expectedResult, result)
 	}
