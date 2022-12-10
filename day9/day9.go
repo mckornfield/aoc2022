@@ -61,9 +61,9 @@ func followTail(headCoords, tailCoords Coords, visistedSpots map[Coords]bool) (C
 			if _, ok := visistedSpots[tailCoords]; ok {
 				fmt.Println(fmt.Sprintf("Already visited at %v", tailCoords))
 			} else {
-				beforeLen := len(visistedSpots)
+				// beforeLen := len(visistedSpots)
 				visistedSpots[tailCoords] = true
-				afterLen := len(visistedSpots)
+				// afterLen := len(visistedSpots)
 			}
 
 		}
